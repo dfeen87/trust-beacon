@@ -24,9 +24,9 @@ stateDiagram-v2
     state "CAPTURING<br/>Bright WHITE (255)<br/>ILed healthy + LED ack + camera interlock ≤50 ms" as CAPTURING
     state "FAULT<br/>Camera disabled<br/>Mirror fault to phone/case" as FAULT
 
-    HARD_OFF --> FAULT: ILed::healthy() == false
-    SOFT_OFF --> FAULT: ILed::healthy() == false
-    ON_IDLE --> FAULT: ILed::healthy() == false
+    HARD_OFF --> FAULT: LED health check fails
+    SOFT_OFF --> FAULT: LED health check fails
+    ON_IDLE --> FAULT: LED health check fails
     CAPTURING --> FAULT: LED/ack/interlock failure
 
     note right of HARD_OFF
