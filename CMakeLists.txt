@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.20)
 project(trust_beacon VERSION 1.1.0 LANGUAGES CXX)
 
 include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
 
 add_library(trust_beacon src/production_trust_controller.cpp)
 add_library(trust_beacon::trust_beacon ALIAS trust_beacon)
@@ -39,6 +40,18 @@ install(
   FILE trust_beaconTargets.cmake
   NAMESPACE trust_beacon::
   DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/trust_beacon)
+configure_package_config_file(
+  cmake/trust_beaconConfig.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/trust_beaconConfig.cmake
+  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/trust_beacon)
+write_basic_package_version_file(
+  ${CMAKE_CURRENT_BINARY_DIR}/trust_beaconConfigVersion.cmake
+  VERSION ${PROJECT_VERSION}
+  COMPATIBILITY SameMajorVersion)
+install(
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/trust_beaconConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/trust_beaconConfigVersion.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/trust_beacon)
 
 include(CTest)
 if(BUILD_TESTING)
@@ -50,6 +63,7 @@ if(BUILD_TESTING)
       URL https://github.com/catchorg/Catch2/archive/refs/tags/v3.7.1.tar.gz
       DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
     FetchContent_MakeAvailable(Catch2)
+    list(APPEND CMAKE_MODULE_PATH "${catch2_SOURCE_DIR}/extras")
   else()
     find_package(Catch2 3 QUIET)
   endif()
