@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/donfeeney/trust-beacon/actions/workflows/ci.yml"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/donfeeney/trust-beacon/ci.yml?branch=main&amp;label=build"></a>
+  <a href="https://github.com/dfeen87/trust-beacon/actions/workflows/ci.yml"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/dfeen87/trust-beacon/ci.yml?branch=main&amp;label=build"></a>
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
   <img alt="C++17" src="https://img.shields.io/badge/C%2B%2B-17-00599C.svg">
   <a href="https://github.com/donfeeney/trust-beacon/releases/tag/v1.1.0"><img alt="Release v1.1.0" src="https://img.shields.io/badge/release-v1.1.0-green.svg"></a>
