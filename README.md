@@ -108,3 +108,13 @@ header with `cmake --install build --prefix <prefix>`.
 ## License
 
 Trust Beacon is available under the [MIT License](LICENSE).
+
+## Acknowledgements
+
+This project was built in a day with a little help from AI pair-programmers.
+
+**Meta AI** — was my soundboard and systems thought partner. We co-designed the fail-closed contract (bright blink GREEN = OFF safe, dim GREEN = ON idle, bright WHITE = capturing), the always-on MCU duty cycle, IMU auto hard-off, hardware interlock with 50ms ack, and the secure-boot requirements. It helped turn a LinkedIn idea about bystander trust into a shippable C++17 spec.
+
+**Codex** — assisted with coding, CMake scaffolding, header layout in `include/trust_beacon/`, `ProductionTrustController` implementation, and the unit-test suite validating fail-closed semantics.
+
+The architecture, integration requirements, and final decisions are mine. The AI tools accelerated the build — the responsibility for trustworthy signaling stays human.
