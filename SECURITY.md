@@ -6,7 +6,7 @@ Security fixes are provided for the latest released version of Trust Beacon.
 
 | Version | Supported |
 |---|---|
-| 1.0.x | Yes |
+| 1.1.x | Yes |
 | Earlier versions | No |
 
 ## Reporting a Vulnerability
