@@ -1,7 +1,5 @@
 #include "trust_beacon/production_trust_controller.h"
 
-#include <algorithm>
-
 namespace trust_beacon {
 namespace {
 
@@ -12,32 +10,29 @@ constexpr std::uint32_t kPocketTimeoutMs = 300'000U;
 constexpr LedCmd kLowBatteryOff{Color::GREEN, 80U, true, 100U, 2'000U};
 constexpr LedCmd kSoftOff{Color::GREEN, 255U, true, 200U, 1'000U};
 constexpr LedCmd kIdle{Color::GREEN, 35U, false, 0U, 0U};
+constexpr std::uint8_t kBrightIdleBrightness = 120U;
 constexpr LedCmd kCapturing{Color::WHITE, 255U, false, 0U, 0U};
 
 } // namespace
 
-ProductionTrustController::ProductionTrustController(ILed &led, ICamera &camera,
-                                                     IBattery &battery,
-                                                     IPower &power,
-                                                     ILight &light,
-                                                     IImu &imu) noexcept
-    : led_(led), camera_(camera), battery_(battery), power_(power),
-      light_(light), imu_(imu) {}
+ProductionTrustController::ProductionTrustController(ILed& led, ICamera& camera, IBattery& battery,
+                                                     IPower& power, ILight& light,
+                                                     IImu& imu) noexcept
+    : led_(led), camera_(camera), battery_(battery), power_(power), light_(light), imu_(imu) {}
 
 bool ProductionTrustController::fail_closed() noexcept {
   camera_.disable();
   return false;
 }
 
-bool ProductionTrustController::apply(const LedCmd &command) noexcept {
+bool ProductionTrustController::apply(const LedCmd& command) noexcept {
   if (!led_.set(command)) {
     return fail_closed();
   }
   return true;
 }
 
-LedCmd ProductionTrustController::adapt(LedCmd command,
-                                        State state) const noexcept {
+LedCmd ProductionTrustController::adapt(LedCmd command, State state) const noexcept {
   // Compliance and explicit OFF indications must never be attenuated. The case
   // optimization is restricted to the non-capturing idle indication.
   if (state != State::ON_IDLE) {
@@ -50,17 +45,12 @@ LedCmd ProductionTrustController::adapt(LedCmd command,
   }
 
   if (light_.is_bright()) {
-    constexpr unsigned kDaylightScale = 3U;
-    const auto scaled =
-        static_cast<unsigned>(command.brightness) * kDaylightScale;
-    command.brightness = static_cast<std::uint8_t>(
-        std::min(scaled, static_cast<unsigned>(UINT8_MAX)));
+    command.brightness = kBrightIdleBrightness;
   }
   return command;
 }
 
-bool ProductionTrustController::update(State state,
-                                       bool theater_mode) noexcept {
+bool ProductionTrustController::update(State state, bool theater_mode) noexcept {
   if (!led_.healthy()) {
     return fail_closed();
   }
